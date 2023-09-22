@@ -1,29 +1,31 @@
 
+#include "List.h"
 namespace pr {
 
 // ******************* Chainon
 Chainon::Chainon (const std::string & data, Chainon * next):data(data),next(next) {};
 
-size_t Chainon::length() {
+size_t Chainon::length() { //Warning : récursion infini avec return length()
 	size_t len = 1;
 	if (next != nullptr) {
 		len += next->length();
 	}
-	return length();
+	return len;
 }
 
-void Chainon::print (std::ostream & os) {
+void Chainon::print (std::ostream & os) const{ //FAUTE : mauvaise signature de fonction il manquait le const
 	os << data ;
 	if (next != nullptr) {
 		os << ", ";
+		next->print(os);
 	}
-	next->print(os);
+	return;
 }
 
 // ******************  List
 const std::string & List::operator[] (size_t index) const  {
 	Chainon * it = tete;
-	for (size_t i=0; i < index ; i++) {
+	for (size_t i=0; i < index; i++) {
 		it = it->next;
 	}
 	return it->data;
@@ -45,7 +47,7 @@ void List::push_front (const std::string& val) {
 	tete = new Chainon(val,tete);
 }
 
-bool empty() {
+bool List::empty() {	//FAUTE : il manquait List:: sinon tete n'est pas défini
 	return tete == nullptr;
 }
 
@@ -59,7 +61,7 @@ size_t List::size() const {
 
 } // namespace pr
 
-std::ostream & operator<< (std::ostream & os, const pr::List & vec)
+std::ostream & pr::operator<< (std::ostream & os, const pr::List & vec) //FAUTE : mettre pr::
 {
 	os << "[";
 	if (vec.tete != nullptr) {
