@@ -1,0 +1,10 @@
+Reponses questions tme 2:
+
+1) Il y a 566 193 mots
+
+2) 20 333 mots différents
+
+3) war 298 fois
+peace 114 fois
+
+4) long, table de hachage (map) 
