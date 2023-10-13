@@ -81,3 +81,51 @@ public:
 		 return nb;
 	 }
 
+	 class iterator{
+		 size_t index;
+		 forward_list<Entry>::iterator lit;
+		 buckets_t& buck;
+	 public:
+		 iterator(size_t index, forward_list<Entry>::iterator lit, buckets_t& buck)
+		 :index(index), lit(lit), buck(buck){}
+
+		 iterator& operator++(){
+			 ++lit;
+			 if(lit == buck[index].end()){
+				 ++index;
+				 for(;index < buck.size() && buck[index].empty(); ++index){
+					 /*NOP*/
+				 }
+				 if (index < buck.size()) lit = buck[index].begin();
+			 }
+			 return *this;
+		 }
+
+		 bool operator!=(const iterator& o){
+			 if (index == buck.size() && o.index == index) return false;
+			 else
+			 		return index!=o.index || lit != o.lit
+					 //||buck != o.buck; -> necessite == sur map
+					 || &buck != &o.buck;
+
+		 }
+
+		 Entry& operator*(){
+			 return *lit;
+		 }
+	 };
+
+		 iterator begin(){
+			 for (int index = 0; index < tab.size(); index++){
+				 	 if (!tab[index»].empty()){
+				 		 return iterator(index, tab[index].begin(), buck)
+				 	 }
+			}
+			 return end();
+		 }
+
+		 iterator end(){
+			 return iterator(tab.size(), tab[0].end(), tab);
+		 }
+	 };
+
